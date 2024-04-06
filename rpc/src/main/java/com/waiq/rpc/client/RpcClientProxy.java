@@ -2,11 +2,13 @@ package com.waiq.rpc.client;
 
 import com.waiq.rpc.entity.RpcRequest;
 import com.waiq.rpc.entity.RpcResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+@Slf4j
 public class RpcClientProxy implements InvocationHandler {
     private String host;
     private int port;
@@ -27,7 +29,10 @@ public class RpcClientProxy implements InvocationHandler {
                 .parameters(args)
                 .paramTypes(method.getParameterTypes())
                 .build();
+        //log.debug("method name:{}",method.getName());
+        //log.debug("parameters:{}",args);
         RpcClient rpcClient = new RpcClient();
         return ((RpcResponse)rpcClient.sendRequest(rpcRequest,host,port)).getData();
+
     }
 }
